@@ -26,24 +26,6 @@ blueprint:
       name: Zigbee2MQTT Base mqtt topic
       description: The base topic configured in Zigbee2MQTT. If you haven't changed this, leave the default here ("zigbee2mqtt")
       default: zigbee2mqtt
-    # media_player:
-    #   name: Media Player
-    #   description: The media player to control with this automation
-    #   selector:
-    #     entity:
-    #       domain: media_player
-    #       multiple: false
-    # volume_steps:
-    #   name: Volume number of steps
-    #   description: Controls the volume scale. The default of 25 is the same scale as the Sonos app.
-    #   default: 25
-    #   selector:
-    #     number:
-    #       min: 5
-    #       max: 100
-    #       step: 5
-    #       unit_of_measurement: "Num"
-    #       mode: slider
     play:
       name: Play
       description: Action to run on Play press
@@ -85,8 +67,7 @@ blueprint:
       description: Action to run on Volume Down Hold
       default: []
       selector:
-        action: {}
-        
+        action: {}   
     single_dot:
       name: Single Dot (Single)
       description: Action to run on single dot press
@@ -165,7 +146,6 @@ action:
           # Volume Down Hold
           - conditions: "{{ trigger.payload == 'volume_down_hold' }}"
             sequence: !input volume_down_hold
-
           # Single Dot Press
           - conditions: "{{ trigger.payload == 'dots_1_short_release' }}"
             sequence: !input single_dot
