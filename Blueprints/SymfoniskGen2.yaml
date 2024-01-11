@@ -6,7 +6,7 @@ blueprint:
 # Updated September 2023 - Further updates for group/non grouped behaviour / fix issue for volume hold for grouped/non grouped. Allow 100 volume steps.
 # Volume changes partially based on https://gist.github.com/erkr/a437ebcb98a2b5ba2deebabd02f5ffae Eric Kreuwels
 # and https://gist.github.com/alexwmaustin/2c25cfa1a0ade1ab9fc1ef0940289672 Alex Austin
-  name: Z2M - IKEA Symfonisk sound controller GEN2 for media
+  name: Z2M - IKEA Symfonisk sound controller GEN2 all custom presses
   source_url: https://raw.githubusercontent.com/Pedromanuelsilva/HomeAssistant/main/Blueprints/SymfoniskGen2.yaml
   description: 
     'Control the selected media player (and any joined to it) with an IKEA Symfonisk sound controller GEN2 via Zigbee2MQTT (Z2M)
