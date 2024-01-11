@@ -44,6 +44,49 @@ blueprint:
     #       step: 5
     #       unit_of_measurement: "Num"
     #       mode: slider
+    play:
+      name: Play
+      description: Action to run on Play press
+      default: []
+      selector:
+        action: {}
+    next_track:
+      name: Next Track
+      description: Action to run on Next Track press
+      default: []
+      selector:
+        action: {}
+    previous_track:
+      name: Previous Track
+      description: Action to run on Previous Track press
+      default: []
+      selector:
+        action: {}
+    volume_up_press:
+      name: Volume Up Press
+      description: Action to run on Volume Up Press
+      default: []
+      selector:
+        action: {}
+    volume_up_hold:
+      name: Volume Up Hold
+      description: Action to run on Volume Up hold
+      default: []
+      selector:
+        action: {}
+    volume_down_press:
+      name: Volume Down Press
+      description: Action to run on Volume Down Press
+      default: []
+      selector:
+        action: {}
+    volume_down_hold:
+      name: Volume Down Hold
+      description: Action to run on Volume Down Hold
+      default: []
+      selector:
+        action: {}
+        
     single_dot:
       name: Single Dot (Single)
       description: Action to run on single dot press
@@ -94,122 +137,34 @@ trigger:
 action:
   - variables:
       controllertopic: "{{ base_topic }}/{{ device_attr(controller, 'name') }}/action"
-      player: !input 'media_player'
-      steps: !input volume_steps
-      stepsize: '{{ 1.0 / steps }}'
   - choose:
     - conditions:
       - "{{ trigger.payload != ''}}"
       - "{{ trigger.topic == controllertopic }}"
       sequence:
         - choose:
-          # ## Commands
-
-          # # Play / Pause
-          # - conditions: "{{ trigger.payload == 'toggle' }}"
-          #   sequence:
-          #   - service: media_player.media_play_pause
-          #     entity_id: !input 'media_player'
-          # # Next Track
-          # - conditions: "{{ trigger.payload == 'track_next' }}"
-          #   sequence:
-          #   - service: media_player.media_next_track
-          #     entity_id: !input 'media_player'
-          # # Previous Track
-          # - conditions: "{{ trigger.payload == 'track_previous' }}"
-          #   sequence:
-          #   - service: media_player.media_previous_track
-          #     entity_id: !input 'media_player'
-
-          # ## Volume for media players supporting groups
-
-          # # Volume Up Press
-          # - conditions: "{{ trigger.payload == 'volume_up' and state_attr(player, 'group_members') != none and state_attr(player, 'group_members') != [] }}"
-          #   sequence:
-          #     - repeat:
-          #         for_each: "{{ state_attr(player, 'group_members') }}"
-          #         sequence:
-          #         - service: media_player.volume_set
-          #           target:
-          #             entity_id: "{{ repeat.item }}"
-          #           data:
-          #             volume_level: >-
-          #               {% set volume = state_attr(repeat.item, "volume_level") + stepsize %}
-          #               {{ 1.0 if volume > 1.0 else volume }}
-
-          # # Volume Down Press
-          # - conditions: "{{ trigger.payload == 'volume_down' and state_attr(player, 'group_members') != none and state_attr(player, 'group_members') != [] }}"
-          #   sequence:
-          #     - repeat:
-          #         for_each: "{{ state_attr(player, 'group_members') }}"
-          #         sequence:
-          #         - service: media_player.volume_set
-          #           target:
-          #             entity_id: "{{ repeat.item }}"
-          #           data:
-          #             volume_level: >-
-          #               {% set volume = state_attr(repeat.item, "volume_level") - stepsize %}
-          #               {{ 0.0 if volume < 0.0 else volume }}
-
-          # # Volume Up Hold
-          # - conditions: "{{ trigger.payload == 'volume_up_hold' and state_attr(player, 'group_members') != none and state_attr(player, 'group_members') != [] }}"
-          #   sequence:
-          #     - repeat:
-          #         for_each: "{{ state_attr(player, 'group_members') }}"
-          #         sequence:
-          #         - service: media_player.volume_up
-          #           target:
-          #             entity_id: "{{ repeat.item }}"
-
-          # # Volume Down Hold
-          # - conditions: "{{ trigger.payload == 'volume_down_hold' and state_attr(player, 'group_members') != none and state_attr(player, 'group_members') != [] }}"
-          #   sequence:
-          #     - repeat:
-          #         for_each: "{{ state_attr(player, 'group_members') }}"
-          #         sequence:
-          #         - service: media_player.volume_down
-          #           target:
-          #             entity_id: "{{ repeat.item }}"
-
-          # ## Volume for media players not supporting groups
-
-          # # Volume Up
-          # - conditions: "{{ trigger.payload == 'volume_up' and (state_attr(player, 'group_members') == none or state_attr(player, 'group_members') == []) }}"
-          #   sequence:
-          #     - service: media_player.volume_set
-          #       target:
-          #         entity_id: "{{ player }}"
-          #       data:
-          #         volume_level: >-
-          #           {% set volume = state_attr(player, "volume_level") + stepsize %}
-          #           {{ 1.0 if volume > 1.0 else volume }}
-           
-          # # Volume Down Press
-          # - conditions: "{{ trigger.payload == 'volume_down' and (state_attr(player, 'group_members') == none or state_attr(player, 'group_members') == []) }}"
-          #   sequence:
-          #     - service: media_player.volume_set
-          #       target:
-          #         entity_id: "{{ player }}"
-          #       data:
-          #           volume_level: >-
-          #             {% set volume = state_attr(player, "volume_level") - stepsize %}
-          #             {{ 0.0 if volume < 0.0 else volume }}
-          
-          # # Volume Up Hold
-          # - conditions: "{{ trigger.payload == 'volume_up_hold' and (state_attr(player, 'group_members') == none or state_attr(player, 'group_members') == []) }}"
-          #   sequence:
-          #     - service: media_player.volume_up
-          #       target:
-          #         entity_id: "{{ player }}"
-          
-          # # Volume Down Hold
-          # - conditions: "{{ trigger.payload == 'volume_down_hold' and (state_attr(player, 'group_members') == none or state_attr(player, 'group_members') == []) }}"
-          #   sequence:
-          #     - service: media_player.volume_down
-          #       target:
-          #         entity_id: "{{ player }}"
-
           ## Actions
+          # Play / Pause
+          - conditions: "{{ trigger.payload == 'toggle' }}"
+            sequence: !input play
+          # Next
+          - conditions: "{{ trigger.payload == 'track_next' }}"
+            sequence: !input next_track
+          # Previous
+          - conditions: "{{ trigger.payload == 'track_previous' }}"
+            sequence: !input previous_track
+          # Volume Up Press
+          - conditions: "{{ trigger.payload == 'volume_up' }}"
+            sequence: !input volume_up_press
+          # Volume Up Hold
+          - conditions: "{{ trigger.payload == 'volume_up_hold' }}"
+            sequence: !input volume_up_hold
+          # Volume Down Press
+          - conditions: "{{ trigger.payload == 'volume_down'}}"
+            sequence: !input volume_down_press
+          # Volume Down Hold
+          - conditions: "{{ trigger.payload == 'volume_down_hold' }}"
+            sequence: !input volume_down_hold
 
           # Single Dot Press
           - conditions: "{{ trigger.payload == 'dots_1_short_release' }}"
